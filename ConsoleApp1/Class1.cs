@@ -1,4 +1,6 @@
 ﻿using ConsoleApp1.DataBase;
+
+using ConsoleApp1.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,6 +64,43 @@ namespace ConsoleApp1
             catch (Exception ex)
             {
                 Console.WriteLine("Error：" + ex.Message);
+            }
+        }
+
+        public void m2()
+        {
+            for (var i = 2; i <= 217; i++)
+            {
+                var data = HttpUtil.GetHtmlData(i);
+                using (var sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(data))))
+                {
+                    string line;
+                    Console.WriteLine("===START===");
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line.Trim().StartsWith("<tr class=\"tr-city\">"))
+                        {
+                            line = line.Trim().Replace("<tr class=\"tr-city\">", "").Replace("</tr>", "").Replace("<td>", "").Replace("</td>", ",");
+                            var tempLine = line.Split(',');
+
+                            _db.Abroad.Add(new Abroad
+                            {
+                                CountryNo = tempLine[0],
+                                CountryName = tempLine[1],
+                                CountryEnglish = tempLine[2],
+                                CityNo = tempLine[3],
+                                CityName = tempLine[4],
+                                CityEnglish = tempLine[5]
+                            });
+                            _db.SaveChanges();
+
+                            Console.WriteLine(line);
+                            Console.WriteLine("===>>>>>>>>>>>>>>>>>>>>>");
+                        }
+
+                    }
+                    Console.WriteLine("===END===");
+                }
             }
         }
     }

@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ConfigDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Abroad">
+          <Key>
+            <PropertyRef Name="PkId" />
+          </Key>
+          <Property Name="PkId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryNo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CountryEnglish" Type="varchar" MaxLength="255" />
+          <Property Name="CityNo" Type="varchar" MaxLength="100" />
+          <Property Name="CityName" Type="varchar" MaxLength="255" />
+          <Property Name="CityEnglish" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="PkId" />
@@ -18,6 +30,7 @@
           <Property Name="CountyName" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="ConfigDBModelStoreContainer">
+          <EntitySet Name="Abroad" EntityType="Self.Abroad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -25,8 +38,21 @@
     <edmx:ConceptualModels>
       <Schema Namespace="ConfigDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ConfigDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Abroad" EntityType="ConfigDBModel.Abroad" />
           <EntitySet Name="Area" EntityType="ConfigDBModel.Area" />
         </EntityContainer>
+        <EntityType Name="Abroad">
+          <Key>
+            <PropertyRef Name="PkId" />
+          </Key>
+          <Property Name="PkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CountryEnglish" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CityNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CityName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CityEnglish" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="PkId" />
@@ -45,6 +71,19 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ConfigDBModelStoreContainer" CdmEntityContainer="ConfigDBEntities">
+          <EntitySetMapping Name="Abroad">
+            <EntityTypeMapping TypeName="ConfigDBModel.Abroad">
+              <MappingFragment StoreEntitySet="Abroad">
+                <ScalarProperty Name="CityEnglish" ColumnName="CityEnglish" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CityNo" ColumnName="CityNo" />
+                <ScalarProperty Name="CountryEnglish" ColumnName="CountryEnglish" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryNo" ColumnName="CountryNo" />
+                <ScalarProperty Name="PkId" ColumnName="PkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Area">
             <EntityTypeMapping TypeName="ConfigDBModel.Area">
               <MappingFragment StoreEntitySet="Area">

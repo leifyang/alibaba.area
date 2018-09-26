@@ -14,7 +14,7 @@ namespace ConsoleApp1
         {
 
             Class1 class1 = new Class1();
-            class1.m1();
+            class1.m2();
 
             Console.ReadKey();
         }

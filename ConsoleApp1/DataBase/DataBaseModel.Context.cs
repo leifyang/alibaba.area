@@ -25,6 +25,7 @@ namespace ConsoleApp1.DataBase
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Abroad> Abroad { get; set; }
         public virtual DbSet<Area> Area { get; set; }
     }
 }
