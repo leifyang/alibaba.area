@@ -12,10 +12,10 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
+            Console.WriteLine("***********START*************");
             Class1 class1 = new Class1();
             class1.m2();
-
+            Console.WriteLine("~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~");
             Console.ReadKey();
         }
     }

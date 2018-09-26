@@ -69,38 +69,44 @@ namespace ConsoleApp1
 
         public void m2()
         {
-            for (var i = 2; i <= 217; i++)
+            try
             {
-                var data = HttpUtil.GetHtmlData(i);
-                using (var sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(data))))
+                for (var i = 1; i <= 217; i++)
                 {
-                    string line;
-                    Console.WriteLine("===START===");
-                    while ((line = sr.ReadLine()) != null)
+                    Console.WriteLine("===开始拉取第" + i + "页===");
+                    var data = HttpUtil.GetHtmlData(i);
+                    using (var sr = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(data))))
                     {
-                        if (line.Trim().StartsWith("<tr class=\"tr-city\">"))
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            line = line.Trim().Replace("<tr class=\"tr-city\">", "").Replace("</tr>", "").Replace("<td>", "").Replace("</td>", ",");
-                            var tempLine = line.Split(',');
-
-                            _db.Abroad.Add(new Abroad
+                            if (line.Trim().StartsWith("<tr class=\"tr-city\">"))
                             {
-                                CountryNo = tempLine[0],
-                                CountryName = tempLine[1],
-                                CountryEnglish = tempLine[2],
-                                CityNo = tempLine[3],
-                                CityName = tempLine[4],
-                                CityEnglish = tempLine[5]
-                            });
-                            _db.SaveChanges();
+                                line = line.Trim().Replace("<tr class=\"tr-city\">", "").Replace("</tr>", "").Replace("<td>", "").Replace("</td>", ",");
+                                var tempLine = line.Split(',');
 
-                            Console.WriteLine(line);
-                            Console.WriteLine("===>>>>>>>>>>>>>>>>>>>>>");
+                                _db.Abroad.Add(new Abroad
+                                {
+                                    CountryNo = tempLine[0],
+                                    CountryName = tempLine[1],
+                                    CountryEnglish = tempLine[2],
+                                    CityNo = tempLine[3],
+                                    CityName = tempLine[4],
+                                    CityEnglish = tempLine[5]
+                                });
+                                _db.SaveChanges();
+
+                                Console.WriteLine(line);
+                                Console.WriteLine("===>>>>>>>>>>>>>>>>>>>>>");
+                            }
                         }
-
                     }
-                    Console.WriteLine("===END===");
+                    Console.WriteLine("===第" + i + "页拉取结束===");
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error:" + ex.Message);
             }
         }
     }
